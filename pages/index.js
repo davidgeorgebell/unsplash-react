@@ -1,43 +1,10 @@
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 
-// export async function getStaticProps() {
-//   const res = await fetch(`${baseUrl}${accessKey}`);
-//   const images = await res.json();
-//   console.log(images);
-//   return {
-//     props: {
-//       images,
-//     },
-//   };
-// }
-
-// function ImageList({ images }) {
-//   return (
-//     images &&
-//     images.map((image, index) => (
-//       <div key={index}>
-//         <img src={image.urls.regular} alt={image.alt_description} />
-//       </div>
-//     ))
-//   );
-// }
-
 const baseUrl = 'https://api.unsplash.com/photos/?client_id=';
 const accessKey = process.env.NEXT_PUBLIC_ACCESS_KEY;
 
-export default function Home() {
-  const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    async function getImages() {
-      const res = await fetch(`${baseUrl}${accessKey}`);
-      const data = await res.json();
-      setImages(data);
-    }
-    getImages();
-  }, []);
-
+export default function Home({ images }) {
   return (
     <div className='container'>
       <Head>
@@ -60,4 +27,13 @@ export default function Home() {
       <footer>David Bell</footer>
     </div>
   );
+}
+export async function getStaticProps() {
+  const res = await fetch(`${baseUrl}${accessKey}`);
+  const images = await res.json();
+  return {
+    props: {
+      images,
+    },
+  };
 }
